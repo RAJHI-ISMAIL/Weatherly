@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../services/weather_service.dart';
+import 'search_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   String weatherCondition = 'sunny';
   double temperature = 0.0;
   bool isLoading = true;
+  bool isNavigating = false;
 
   @override
   void initState() {
@@ -145,8 +147,23 @@ class _HomePageState extends State<HomePage> {
                     child: Align(
                       alignment: Alignment.topRight,
                       child: IconButton(
-                        onPressed: () {
-                          // TODO: Navigate to search page
+                        onPressed: () async {
+                          if (isNavigating) return; // Prevent multiple taps
+
+                          setState(() {
+                            isNavigating = true;
+                          });
+
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SearchPage(),
+                            ),
+                          );
+
+                          setState(() {
+                            isNavigating = false;
+                          });
                         },
                         icon: const Icon(
                           Icons.search,
@@ -171,8 +188,9 @@ class _HomePageState extends State<HomePage> {
                   // City Name
                   Text(
                     cityName,
-                    style: const TextStyle(
-                      fontSize: 35,
+                    style: TextStyle(
+                      fontFamily: GoogleFonts.vt323().fontFamily,
+                      fontSize: 50,
                       fontWeight: FontWeight.w400,
                       color: Colors.black,
                       letterSpacing: 1,
