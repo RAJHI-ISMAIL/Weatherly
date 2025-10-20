@@ -6,8 +6,10 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -22,10 +24,14 @@ class WelcomePage extends StatelessWidget {
               const SizedBox(height: 40),
 
               // Subtitle Text (3 lines)
-              const Text(
+              Text(
                 'Discover the world\'s weather, simply.\nYou can now explore live forecasts\nanywhere',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.grey, height: 1.5),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: colorScheme.secondary,
+                  height: 1.5,
+                ),
               ),
 
               const Spacer(flex: 3),
@@ -42,8 +48,8 @@ class WelcomePage extends StatelessWidget {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white,
+                    backgroundColor: colorScheme.primary,
+                    foregroundColor: colorScheme.onPrimary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

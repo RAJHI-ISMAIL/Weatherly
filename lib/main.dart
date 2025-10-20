@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'theme/app_theme.dart';
 import 'pages/welcome_page.dart';
 
 Future<void> main() async {
@@ -20,10 +21,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Weatherly',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
+      themeMode: ThemeMode.system, // Automatically follows system theme
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       home: const WelcomePage(),
     );
   }

@@ -18,6 +18,8 @@ class _HomePageState extends State<HomePage> {
   String cityName = 'Loading...';
   String weatherCondition = 'sunny';
   double temperature = 0.0;
+  int humidity = 0;
+  String weatherDescription = '';
   bool isLoading = true;
   bool isNavigating = false;
 
@@ -74,6 +76,8 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         temperature = weatherData['temperature'];
         weatherCondition = weatherData['condition'];
+        humidity = weatherData['humidity'];
+        weatherDescription = weatherData['description'];
         isLoading = false;
       });
     } catch (e) {
@@ -134,10 +138,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.background,
       body: isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.black))
+          ? Center(
+              child: CircularProgressIndicator(
+                color: theme.progressIndicatorTheme.color,
+              ),
+            )
           : SafeArea(
               child: Column(
                 children: [
@@ -165,22 +176,22 @@ class _HomePageState extends State<HomePage> {
                             isNavigating = false;
                           });
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.search,
-                          color: Colors.black,
+                          color: theme.iconTheme.color,
                           size: 30,
                         ),
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 8),
 
                   // Location Icon
-                  const Icon(
+                  Icon(
                     Icons.location_on_outlined,
                     size: 34,
-                    color: Colors.black,
+                    color: theme.iconTheme.color,
                   ),
 
                   const SizedBox(height: 8),
@@ -192,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                       fontFamily: GoogleFonts.vt323().fontFamily,
                       fontSize: 50,
                       fontWeight: FontWeight.w400,
-                      color: Colors.black,
+                      color: colorScheme.onBackground,
                       letterSpacing: 1,
                     ),
                   ),
@@ -209,14 +220,84 @@ class _HomePageState extends State<HomePage> {
 
                   const Spacer(),
 
-                  // Temperature (stays at bottom)
-                  Text(
-                    '${temperature.round()}°',
-                    style: TextStyle(
-                      fontFamily: GoogleFonts.vt323().fontFamily,
-                      fontSize: 60,
-                      fontWeight: FontWeight.w400,
-                      color: const Color.fromARGB(255, 0, 0, 0),
+                  // Weather Details Row
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        // Temperature Column
+                        Column(
+                          children: [
+                            Text(
+                              'Temperature',
+                              style: TextStyle(
+                                fontFamily: GoogleFonts.vt323().fontFamily,
+                                fontSize: 20,
+                                color: colorScheme.onBackground,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              '${temperature.round()}°',
+                              style: TextStyle(
+                                fontFamily: GoogleFonts.vt323().fontFamily,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: colorScheme.onBackground,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // Humidity Column
+                        Column(
+                          children: [
+                            Text(
+                              'Humidity',
+                              style: TextStyle(
+                                fontFamily: GoogleFonts.vt323().fontFamily,
+                                fontSize: 20,
+                                color: colorScheme.onBackground,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              '$humidity%',
+                              style: TextStyle(
+                                fontFamily: GoogleFonts.vt323().fontFamily,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: colorScheme.onBackground,
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        // Condition Column
+                        Column(
+                          children: [
+                            Text(
+                              'Condition',
+                              style: TextStyle(
+                                fontFamily: GoogleFonts.vt323().fontFamily,
+                                fontSize: 20,
+                                color: colorScheme.onBackground,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              weatherCondition,
+                              style: TextStyle(
+                                fontFamily: GoogleFonts.vt323().fontFamily,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: colorScheme.onBackground,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
 

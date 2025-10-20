@@ -89,16 +89,20 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Access theme colors
+    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: colorScheme.background,
         elevation: 0,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: theme.iconTheme.color),
         ),
       ),
       body: SafeArea(
@@ -112,7 +116,7 @@ class _SearchPageState extends State<SearchPage> {
                 style: TextStyle(
                   fontFamily: GoogleFonts.vt323().fontFamily,
                   fontSize: 32,
-                  color: Colors.black,
+                  color: colorScheme.onBackground,
                 ),
               ),
             ),
@@ -126,6 +130,7 @@ class _SearchPageState extends State<SearchPage> {
                     child: TextField(
                       controller: _searchController,
                       onSubmitted: (value) => _searchCity(value),
+                      style: TextStyle(color: colorScheme.onBackground),
                       decoration: InputDecoration(
                         hintText: 'Enter city name...',
                         hintStyle: TextStyle(
@@ -133,7 +138,7 @@ class _SearchPageState extends State<SearchPage> {
                           fontSize: 16,
                         ),
                         filled: true,
-                        fillColor: Colors.grey[100],
+                        fillColor: theme.inputDecorationTheme.fillColor,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide.none,
@@ -153,16 +158,16 @@ class _SearchPageState extends State<SearchPage> {
                   // Search Button
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: colorScheme.primary,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: IconButton(
                       onPressed: () {
                         _searchCity(_searchController.text);
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.search,
-                        color: Colors.white,
+                        color: colorScheme.onPrimary,
                         size: 24,
                       ),
                     ),
@@ -174,8 +179,10 @@ class _SearchPageState extends State<SearchPage> {
             // Search Results
             Expanded(
               child: _isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(color: Colors.black),
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: colorScheme.primary,
+                      ),
                     )
                   : _hasSearched && _searchResults.isEmpty
                   ? Center(
@@ -228,6 +235,7 @@ class _SearchPageState extends State<SearchPage> {
                       itemBuilder: (context, index) {
                         final weather = _searchResults[index];
                         return Card(
+                          color: theme.cardTheme.color,
                           elevation: 2,
                           margin: const EdgeInsets.only(bottom: 12),
                           shape: RoundedRectangleBorder(
@@ -245,7 +253,8 @@ class _SearchPageState extends State<SearchPage> {
                                     width: 60,
                                     height: 60,
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[100],
+                                      color:
+                                          theme.inputDecorationTheme.fillColor,
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Center(
@@ -269,7 +278,7 @@ class _SearchPageState extends State<SearchPage> {
                                                 GoogleFonts.vt323().fontFamily,
                                             fontSize: 24,
                                             fontWeight: FontWeight.w400,
-                                            color: Colors.black,
+                                            color: colorScheme.onBackground,
                                           ),
                                         ),
                                         const SizedBox(height: 4),
@@ -291,7 +300,7 @@ class _SearchPageState extends State<SearchPage> {
                                           GoogleFonts.vt323().fontFamily,
                                       fontSize: 36,
                                       fontWeight: FontWeight.w400,
-                                      color: Colors.black,
+                                      color: colorScheme.onBackground,
                                     ),
                                   ),
                                   const SizedBox(width: 8),
